@@ -92,9 +92,9 @@ a:hover {
 
 <body>
   <div class="navbar">
-  <a href="#">Home</a>
-  <a href="#">About</a>
-  <a href="#">Contact</a>
+ <a href="#"onclick="showMessage()">Home</a>
+  <a href="#"onclick="showMessage()">About</a>
+  <a href="#"onclick="showMessage()">Contact</a>
 </div>
 
   <div class="container">
@@ -131,6 +131,11 @@ a:hover {
   </div>
 
 </div>
+  <script>
+  function showMessage() {
+    alert("Welcome! You clicked the button 🚀");
+  }
+</script>
 
 </body>
 
