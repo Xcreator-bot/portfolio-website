@@ -8,7 +8,7 @@
     body {
   font-family: 'Segoe UI', Arial;
 }
-
+    
 h1 {
   margin-bottom: 10px;
 }
@@ -86,6 +86,12 @@ a:hover {
   position: sticky;
   top: 0;
 }
+    input, textarea {
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
   </style>
 
 </head>
@@ -123,7 +129,17 @@ a:hover {
       <li>Learning new skills</li>
     </ul>
   </div>
+<div class="section">
+  <h2>Contact Me</h2>
 
+  <input type="text" id="name" placeholder="Enter your name"><br><br>
+
+  <input type="email" id="email" placeholder="Enter your email"><br><br>
+
+  <textarea id="message" placeholder="Your message"></textarea><br><br>
+
+  <button onclick="submitForm()">Send</button>
+</div>
   <div class="section">
     <img src="fun.png" alt="my image">
     <br>
@@ -136,7 +152,17 @@ a:hover {
     alert("Welcome! You clicked the button 🚀");
   }
 </script>
+  <script>
+  function submitForm() {
+    let name = document.getElementById("name").value;
+    
+    if (name === "") {
+      alert("Please enter your name");
+    } else {
+      alert("Form submitted successfully 🚀");
+    }
+  }
+</script>
 
 </body>
-
 </html>
