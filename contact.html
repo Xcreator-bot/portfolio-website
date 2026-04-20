@@ -1,0 +1,102 @@
+ <!DOCTYPE html>
+<html>
+
+<head>
+     <title>My First Website</title>
+     <style>
+         .container {
+  width: 80%;
+  margin: auto;
+  text-align: center;
+}
+ body {
+  background-color: lightblue;
+  font-family: 'Segoe UI', Arial;
+}
+        .section {
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 20px;
+   box-shadow: 0 0 10px gray;
+}
+    a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: blue;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+
+a:hover {
+  background-color: darkblue;
+  transform: scale(1.05);
+}
+.navbar {
+  background-color: darkblue;
+  padding: 10px;
+  text-align: center;
+}
+
+.navbar a {
+  color: white;
+  margin: 10px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.navbar a:hover {
+  text-decoration: underline;
+}
+.navbar {
+  position: sticky;
+  top: 0;
+}
+    input, textarea {
+  width: 80%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+     </style>
+     
+     </head>
+
+<body>
+     <div class="container">
+           <div class="navbar">
+ <a href="index.html">Home</a>
+ <a href="index.html">About</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+  <div class="section">
+  <h2>Contact Me</h2>
+
+  <input type="text" id="name" placeholder="Enter your name"><br><br>
+
+  <input type="email" id="email" placeholder="Enter your email"><br><br>
+
+  <textarea id="message" placeholder="Your message"></textarea><br><br>
+
+  <button onclick="submitForm()">Send</button>
+</div>
+</div>
+ 
+ <script>
+  function submitForm() {
+    let name = document.getElementById("name").value;
+    
+    if (name === "") {
+      alert("Please enter your name");
+    } else {
+      alert("Form submitted successfully 🚀");
+    }
+  }
+</script>
+
+</body>
+</html>
