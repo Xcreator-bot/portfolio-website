@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todo App</title>
+
+  <style>
+    body {
+      background: #87b9c4;
+      font-family: Arial;
+    }
+
+    .section {
+      width: 400px;
+      margin: 80px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px gray;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 10px;
+      width: 65%;
+      border-radius: 5px;
+      border: 1px solid gray;
+    }
+
+    button {
+      padding: 10px;
+      background: blue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: darkblue;
+    }
+
+    ul {
+      padding: 0;
+      margin-top: 20px;
+    }
+
+    li {
+      list-style: none;
+      background: #f1f1f1;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .deleteBtn {
+      background: red;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .deleteBtn:hover {
+      background: darkred;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="section">
+  <h2>My Tasks</h2>
+
+  <input type="text" id="taskInput" placeholder="Enter a task">
+  <button onclick="addTask()">Add</button>
+
+  <ul id="taskList"></ul>
+</div>
+
+<script>
+
+function addTask() {
+  let task = document.getElementById("taskInput").value;
+
+  if (task === "") {
+    alert("Enter something");
+    return;
+  }
+
+  createTaskElement(task);
+  saveTasks();
+
+  document.getElementById("taskInput").value = "";
+}
+
+function createTaskElement(taskText) {
+  let li = document.createElement("li");
+
+  li.innerHTML = `
+    <span>${taskText}</span>
+    <button class="deleteBtn">❌</button>
+  `;
+
+  li.querySelector(".deleteBtn").onclick = function() {
+    li.remove();
+    saveTasks();
+  };
+
+  document.getElementById("taskList").appendChild(li);
+}
+
+function saveTasks() {
+  let tasks = [];
+  document.querySelectorAll("#taskList li span").forEach(function(item) {
+    tasks.push(item.innerText);
+  });
+
+  localStorage.setItem("myTasks", JSON.stringify(tasks));
+}
+
+window.onload = function() {
+  let saved = localStorage.getItem("myTasks");
+
+  if (saved) {
+    let tasks = JSON.parse(saved);
+
+    tasks.forEach(function(task) {
+      createTaskElement(task);
+    });
+  }
+};
+
+document.getElementById("taskInput").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") addTask();
+});
+
+</script>
+
+</body>
+</html>
