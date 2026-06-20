@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name= "viewport" content="width=device-width, initial-scale=1.0"/>
+   <title> Weather App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a1020;
+    padding: 24px;
+  }
+  /* Main card */
+.weather-card {
+  width: 100%;
+  max-width: 420px;
+  background: linear-gradient(145deg, #0f1c2e 0%, #162844 40%, #1a3a5c 100%);
+  border-radius: 28px;
+  padding: 32px;
+  color: #e8f0fe;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 50px;
+  padding: 10px 18px;
+  margin-bottom: 36px;
+}
+
+.search-bar i {
+  font-size: 17px;
+  color: rgba(255,255,255,0.38);
+}
+
+.search-bar input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e8f0fe;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  width: 100%;
+}
+
+.search-bar input::placeholder {
+  color: rgba(255,255,255,0.28);
+}
+.main-info {
+  margin-bottom: 32px;
+}
+
+.city-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.temp-display {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.temp-number {
+  font-size: 96px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -4px;
+}
+
+.temp-unit {
+  font-size: 30px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+  margin-top: 16px;
+  margin-left: 4px;
+}
+
+.weather-condition {
+  font-size: 19px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  margin-top: 4px;
+}
+
+.feels-like {
+  font-size: 12px;
+  color: rgba(255,255,255,0.33);
+  margin-top: 4px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.stat-item {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 16px;
+  padding: 14px 12px;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.32);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.stat-label i {
+  font-size: 13px;
+  color: rgba(100,180,255,0.65);
+}
+
+.stat-value {
+  font-size: 21px;
+  font-weight: 600;
+  color: #ffffff;
+}
+.forecast-list {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.forecast-list::-webkit-scrollbar {
+  display: none;
+}
+
+.forecast-day {
+  flex: 0 0 auto;
+  min-width: 70px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 40px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: default;
+  transition: background 0.2s ease;
+}
+
+.forecast-day.active {
+  background: rgba(56,152,255,0.18);
+  border-color: rgba(56,152,255,0.38);
+}
+
+.day-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.forecast-day.active .day-label {
+  color: rgba(100,180,255,0.85);
+}
+
+.forecast-day i {
+  font-size: 18px;
+  color: rgba(255,255,255,0.45);
+}
+
+.forecast-day.active i {
+  color: rgba(255,200,60,0.85);
+}
+
+.day-temp {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+</style>
+  </head>
+  <body>
+    <div class="weather-card">
+      <div class="search-bar">
+        <i class="ti ti-search"></i>
+           <input type="text" id="cityInput" placeholder="Search city..."/>
+      </div>
+      <div class="main-info">
+
+  <div class="city-row">
+    <i class="ti ti-map-pin"></i>
+    <span id="cityName">Lahore, PK</span>
+  </div>
+
+  <div class="temp-display">
+    <span class="temp-number" id="tempVal">34</span>
+    <span class="temp-unit">°C</span>
+  </div>
+
+  <div class="weather-condition" id="weatherDesc">Sunny & Clear</div>
+  <div class="feels-like" id="feelsLike">Feels like 38°C · High 39° · Low 28°</div>
+
+</div>
+      <!-- stats-grid
+├── stat-item        (box 1)
+│   ├── stat-label   (icon + text "Humidity")
+│   └── stat-value   (the number "42%")
+├── stat-item        (box 2)
+└── stat-item        (box 3)  -->
+<div class="stats-grid">
+
+  <div class="stat-item">
+
+  <div class="stat-label">
+    <i class="ti ti-droplet"></i>
+    Humidity
+          </div>
+    <div class="stat-value" id="humidity">42%</div>
+    
+  </div>
+    
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="ti ti-wind"></i>
+        wind
+      </div>
+      <div class="stat-value" id="wind">18km/h</div>
+    </div>
+
+    <div class="stat-item">
+      <div class="stat-label">
+        <i class="ti ti-eye"></i>Visibility
+      </div>
+      <div class="stat-value" id="visibility">10km</div>
+    </div>
+   </div>
+      <div class="forecast-list">
+
+  <div class="forecast-day active">
+    <span class="day-label">Today</span>
+    <i class="ti ti-sun"></i>
+    <span class="day-temp">34°</span>
+  </div>
+
+  <div class="forecast-day">
+    <span class="day-label">Tue</span>
+    <i class="ti ti-sun"></i>
+    <span class="day-temp">36°</span>
+  </div>
+
+  <div class="forecast-day">
+    <span class="day-label">Wed</span>
+    <i class="ti ti-cloud"></i>
+    <span class="day-temp">31°</span>
+  </div>
+
+  <div class="forecast-day">
+    <span class="day-label">Thu</span>
+    <i class="ti ti-cloud-rain"></i>
+    <span class="day-temp">27°</span>
+  </div>
+
+  <div class="forecast-day">
+    <span class="day-label">Fri</span>
+    <i class="ti ti-cloud-storm"></i>
+    <span class="day-temp">25°</span>
+  </div>
+      </div>
+    </div>
+    <script>
+
+  // Your API key
+  const API_KEY = 'c45fe3c3e25d0e965bdd0fc22848b898';
+
+  // Get the search input element
+  const cityInput = document.getElementById('cityInput');
+
+  // Listen for Enter key press
+  cityInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      const city = cityInput.value.trim();
+      if (city) {
+        getWeather(city);
+      }
+    }
+  });
+  // Function to fetch weather data
+async function getWeather(city) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+  
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    updateUI(data);
+  } catch (error) {
+    alert('City not found. Please try again.');
+  }
+}
+function updateUI(data) {
+  // Update city name
+  document.getElementById('cityName').textContent = 
+    data.name + ', ' + data.sys.country;
+
+  // Update temperature
+  document.getElementById('tempVal').textContent = 
+    Math.round(data.main.temp);
+
+  // Update weather condition
+  document.getElementById('weatherDesc').textContent = 
+    data.weather[0].description;
+
+  // Update feels like
+  document.getElementById('feelsLike').textContent = 
+    'Feels like ' + Math.round(data.main.feels_like) + '°C' +
+    ' · High ' + Math.round(data.main.temp_max) + '°' +
+    ' · Low ' + Math.round(data.main.temp_min) + '°';
+
+  // Update stats
+  document.getElementById('humidity').textContent = 
+    data.main.humidity + '%';
+
+  document.getElementById('wind').textContent = 
+    Math.round(data.wind.speed * 3.6) + ' km/h';
+
+  document.getElementById('visibility').textContent = 
+    (data.visibility / 1000) + ' km';
+}
+</script>
+  </body>
+  </html>
