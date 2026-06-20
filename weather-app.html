@@ -326,6 +326,33 @@ async function getWeather(city) {
   }
 }
 function updateUI(data) {
+  document.getElementById('cityName').textContent = 
+    data.name + ', ' + data.sys.country;
+
+  document.getElementById('tempVal').textContent = 
+    Math.round(data.main.temp);
+
+  document.getElementById('weatherDesc').textContent = 
+    data.weather[0].description;
+
+  document.getElementById('feelsLike').textContent = 
+    'Feels like ' + Math.round(data.main.feels_like) + '°C' +
+    ' · High ' + Math.round(data.main.temp_max) + '°' +
+    ' · Low ' + Math.round(data.main.temp_min) + '°';
+
+  document.getElementById('humidity').textContent = 
+    data.main.humidity + '%';
+
+  document.getElementById('wind').textContent = 
+    Math.round(data.wind.speed * 3.6) + ' km/h';
+
+  document.getElementById('visibility').textContent = 
+    (data.visibility / 1000) + ' km';
+}
+
+// Load Lahore weather by default when page opens
+getWeather('Lahore');
+function updateUI(data) {
   // Update city name
   document.getElementById('cityName').textContent = 
     data.name + ', ' + data.sys.country;
